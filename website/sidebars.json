@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "Docusaurus": ["README"],
+    "First Category111": ["about"],
+    "Front-end": [
+      "Front-end",
+      "frontend/bem",
+      "frontend/postcss-sorting",
+      "frontend/loader-url",
+      "frontend/static-use-in-react",
+      "frontend/hapi",
+      "frontend/javascript-core"
+    ]
+  }
+}
