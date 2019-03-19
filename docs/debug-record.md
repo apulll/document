@@ -499,3 +499,32 @@ Blockly.utils.createSvgElement('feComposite',
 scratcht-blocks/core/inject.js
 ### Test case 
 同测试
+
+
+bug#44579 【1.2.0.1-explore上传模式-数学】拖动变量赋值block块后，变量会消失
+ ### Root Cause
+前期没有考虑清楚
+### Solution
+将变量这一块的内容换回成最原始的模式
+### Affected files
+ scratch-gui/src/lib/uCode/make-explore-toolbox-xml.js
+### Test case 
+同测试
+
+bug#44581 【1.2.0.1-explore上传模式-数学】修改变量名称，对应引用的变量没有跟着变
+ ### Root Cause
+前期没有考虑清楚
+### Solution
+将变量这一块的内容换回成最原始的模式
+### Affected files
+scratch-blocks/blocks_vertical/default_toolbox.js
+scratch-blocks/core/variable_events.js
+scratch-blocks/core/variable_map.js
+scratch-blocks/core/variable_model.js
+scratch-blocks/core/variables.js
+scratch-blocks/core/workspace.js
+scratch-blocks/core/workspace_svg.js
+scratch-blocks/core/xml.js
+scratch-vm/src/engine/blocks.js
+### Test case 
+同测试

@@ -4,29 +4,65 @@ title: App-inventor
 
 ## 现有文件结构介绍
 ```
-├─app-inventor // 本地开发时
+├─app-inventor                 // 本地开发时
 ├─app-inventor-electron-build // 本地修改完后使用electron打包
-├─app-inventor-installer // electron 打包后生成可自定义启动和安装界面的exe文件
-├─app-inventor-packages // 离线运行服务所需要的相关包
+├─app-inventor-installer      // electron 打包后生成可自定义启动和安装界面的exe文件
+├─app-inventor-packages       // 离线运行服务所需要的相关包
+```
+## 使用方法
+### clone
+
+```bash
+#克隆所有项目
+git clone git@gitlab.ubt.com:uApp-Creator/app-inventor-all.git  --recursive
+# 转到packages目录下面 解压缩包
+cd app-inventor-packages  
+# 将解压缩得到的三个包文件拷贝到 app-inventor-electron-build/appinventor
 ```
 
 
-## 开发流程
+### app-inventor 本地开发（app-inventor）
 
-1. 启动本地服务进行本地开发（详细请参照app-inventor中的READM操作步骤）
-2. 本地开发完了之后进行编译，命令： `ant`
-3. build 完之后 将build的文件进行： `cd appinventor\appengine\build\war`  `git push`
-4. 切换到app-inventor-electron-build 更新子模块 `git submodule update --remote`
-5. `yarn start` 开发环境进行 electron 相关的工作
-6. `yarn build` electron builder
-7. `yarn copy` 将打包好的文件自动copy到 app-inventor-electron-installer 下 uApp-Creator-application目录
-8. 进入到 app-inventor-electron-installer , 使用innosetup 自定义安装包的安装相关操作
+#### Dependencies
+
+- JDK8
+- [App Engine SDK](https://developers.google.com/appengine/downloads)
+- [ant](http://ant.apache.org/) (1.10以上)
+
+```bash
+# 本地开发（详细请参照app-inventor中的README操作步骤）
+xxx xxxx
+# 编译
+ant
+# 编译成功验证通过之后直接进行下一步操作（需要马上在electron上看到效果的）： 
+cd appinventor\appengine\build\war
+git push
+
+```
+
+### electron 构建（app-inventor-electron-build）
+```bash
+#切换到app-inventor-electron-build 更新子模块 
+git submodule update --init // 如果是初次使用的话 
+git submodule update --remote
+#本地开发
+yarn start || npm run start
+# 构建
+yarn build || npm run build
+# 将打包好的文件自动copy到 app-inventor-electron-installer 下 uApp-Creator-application目录
+yarn copy
+```
+
+### 自定义生成可执行的exe文件（app-inventor-electron-installer）
+- 进入到 app-inventor-electron-installer , 使用innosetup 自定义安装包的安装相关操作
+- 编译之后会在{output}目录下生成可执行程序
 
 ## 最理想的开发方式构想
 
 - windows上面使用 docker for windows 
 - 创建一个docker镜像将上面的依赖环境集成
 - 直接将这个新镜像打包发布共享
+- xxx
 
 ## issues
 
@@ -66,9 +102,9 @@ title: App-inventor
 
     ```
 
-####  问题四：使用electron打包现有应用时，执行.exe 文件无法调用到相关bat命令
+#### 问题四：使用electron打包现有应用时，执行.exe 文件无法调用到相关bat命令
 
-####  问题五： 打包app时报错，版本不一致的问题
+#### 问题五： 打包app时报错，版本不一致的问题
 1. 引起问题的原因： 
 
     执行 `ant` 命令时 等于是重新构建了一次，这个时候没有对buildserver重新同步构建，所以导致会出现版本不一致的情况
@@ -87,7 +123,7 @@ title: App-inventor
 
 
 
-## 问题五：build app 时进度条停留在某一个值不动
+#### 问题六：build app 时进度条停留在某一个值不动
 
 1. 问题描述
 
@@ -139,6 +175,41 @@ title: App-inventor
 3. 解决方案
 
    将main.js的端口号改回来
+
+
+
+## Notify
+
+### 几个耗时比较长的研究
+#### 离线使用 app-inventor
+1. 问题背景
+
+    由于需要满足在没有网络的情况下也需要能正常使用我们的桌面应用，所以需要考虑怎么去做离线使用
+
+2. 目前的状况
+
+    目前的app-inventor 是一个jsp应用，自然而然的需要启动一个服务，正常情况下本地开发完应用直接发布到线上就ok了，也是最省事的方法。但是基于上面的大背景，我们需要在每一台用户的机器上自动启动相关服务
+
+3. 不完美的解决方案
+
+    我们采用了在electron里面自动加载.bat批处理文件（windows）来调起相关服务
+
+4. 还未完成
+    
+
+
+#### 页面加载之后自动跳过登录模块
+
+1. 背景
+
+    uApp-Creator桌面端不要求用户需要登录才可以进入到系统
+
+2. 目前的状况
+
+    由于系统自带登录逻辑，所以需要将目前的登录逻辑进行改造
+
+3. 解决方案
+
 
 
 
